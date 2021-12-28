@@ -1,8 +1,8 @@
-import axios from 'axios'
+import axiosBase from 'axios'
 
 // NOTE: Google Books API
-const httpClient = axios.create({
+const axios = axiosBase.create({
   baseURL: 'https://www.googleapis.com/books/v1/volumes'
 })
 
-export { httpClient }
+export default axios
