@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { BookItem } from '@/repositories/book'
   import SearchBar from '@/components/SearchBar.svelte'
+  import Spinner from '@/components/Spinner.svelte'
   import { BookRepository } from '@/repositories/book'
 
   /** States */
@@ -37,8 +38,11 @@
       <div>{book.volumeInfo.title}</div>
     {/each}
   {/if}
+
   {#await promise}
-    <div>loading...</div>
+    <div class="flex justify-center">
+      <Spinner />
+    </div>
     {:catch e}
       <span class="text-red-600 text-sm">
         {e.message}
