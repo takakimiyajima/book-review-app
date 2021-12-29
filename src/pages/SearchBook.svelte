@@ -2,6 +2,7 @@
   import type { BookItem } from '@/repositories/book'
   import SearchBar from '@/components/SearchBar.svelte'
   import Spinner from '@/components/Spinner.svelte'
+  import BookCard from '@/components/BookCard.svelte'
   import { BookRepository } from '@/repositories/book'
 
   /** States */
@@ -34,9 +35,11 @@
   {#if isEmpty}
     <div>No results found.</div>
   {:else}
-    {#each books as book (book.id)}
-      <div>{book.volumeInfo.title}</div>
-    {/each}
+    <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+      {#each books as book (book.id)}
+        <BookCard {book} />
+        {/each}
+    </div>
   {/if}
 
   {#await promise}

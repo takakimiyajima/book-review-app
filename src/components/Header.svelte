@@ -11,7 +11,7 @@
 ">
    <div class="container mx-auto px-6 h-16 flex justify-between items-center">
     <span class="font-semibold text-xl text-white tracking-tight">
-      Book Recview
+      Book Review
     </span>
   </div>
 </header>
