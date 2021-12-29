@@ -40,5 +40,9 @@
     "axios": "0.21.1",
     "sirv-cli": "^1.0.0",
     "svelte-spa-router": "^3.2.0"
-  }
+  },
+  "__comments": [
+    "you can comment here for Package.json",
+    "now MUST NOT upgrade axios more than v0.21.1 coz https://www.reddit.com/r/sveltejs/comments/qiityh/how_to_use_axios_in_svelte/hil7ei7/"
+  ]
 }
