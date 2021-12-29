@@ -1,4 +1,5 @@
 <script lang="ts">
+  import InfiniteScroll from 'svelte-infinite-scroll'
   import type { BookItem } from '@/repositories/book'
   import SearchBar from '@/components/SearchBar.svelte'
   import Spinner from '@/components/Spinner.svelte'
@@ -9,7 +10,11 @@
   let q = 'Java'
   let isEmpty = false
   let books: BookItem[] = []
+  let startIndex = 0
+  let totalItems = 0
   let promise: Promise<void>
+
+  $: hasMore = totalItems > books.length
 
   /** Methods */
   const handleSubmit = () => {
@@ -17,14 +22,36 @@
     promise = getBooks()
   }
 
+  const handleLoadMore = () => {
+    startIndex += 10
+    promise = getNextPage()
+  }
+
   const getBooks = async () => {
     books = []
     isEmpty = false
+    startIndex = 0
     const result = await BookRepository.get({ q })
     if (result) {
       isEmpty = result.totalItems === 0
+      totalItems = result.totalItems
       books = result.items
     }
+  }
+
+  const getNextPage = async () => {
+    const result = await BookRepository.get({ q, startIndex })
+    if (!result) {
+      return
+    }
+
+    // It's filtered by id coz the acquired data may include data that already exists
+    const bookIds = books.map(book => book.id)
+    const filteredItems = result.items.filter(item => {
+      return !bookIds.includes(item.id)
+    })
+    // NOTE: Must always replace the variable directly to make the array value reactive.
+    books = [...books, ...filteredItems]
   }
 </script>
 
@@ -38,8 +65,17 @@
     <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
       {#each books as book (book.id)}
         <BookCard {book} />
-        {/each}
+      {/each}
     </div>
+    <InfiniteScroll
+      threshold={100}
+      elementScroll={null}
+      window
+      {hasMore}
+      horizontal={false}
+      reverse={false}
+      on:loadMore={handleLoadMore}
+    />
   {/if}
 
   {#await promise}
