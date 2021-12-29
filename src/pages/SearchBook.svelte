@@ -3,12 +3,13 @@
   import SearchBar from '@/components/SearchBar.svelte'
   import { BookRepository } from '@/repositories/book'
 
-  /** State */
+  /** States */
   let q = 'Java'
-  let empty = false
+  let isEmpty = false
   let books: BookItem[] = []
   let promise: Promise<void>
 
+  /** Methods */
   const handleSubmit = () => {
     if (!q.trim()) return
     promise = getBooks()
@@ -16,12 +17,10 @@
 
   const getBooks = async () => {
     books = []
-    empty = false
+    isEmpty = false
     const result = await BookRepository.get({ q })
-    console.log('result----')
-    console.log(result)
     if (result) {
-      empty = result.totalItems === 0
+      isEmpty = result.totalItems === 0
       books = result.items
     }
   }
@@ -31,8 +30,8 @@
   <SearchBar bind:value={q} />
 </form>
 <div class="mt-4 text-center">
-  {#if empty}
-    <div>検索結果が見つかりませんでした。</div>
+  {#if isEmpty}
+    <div>No results found.</div>
   {:else}
     {#each books as book (book.id)}
       <div>{book.volumeInfo.title}</div>
