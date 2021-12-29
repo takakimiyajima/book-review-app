@@ -1,9 +1,9 @@
-import { BookRepository, IBookRepository } from "./book";
+import { BookRepository, IBookRepository } from "@/repositories/book"
 
 export const BOOK = Symbol('book')
 
 export interface Repositories {
-  [BOOK]: BookRepositoryInterface;
+  [BOOK]: IBookRepository;
 }
 
 export default {
