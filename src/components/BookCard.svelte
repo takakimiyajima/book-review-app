@@ -54,9 +54,6 @@
     lg:w-7/12
   ">
     <div class="my-4">
-      <div class="text-black font-bold text-xl mb-2">
-        {book.volumeInfo.title}
-      </div>
       <a href={`/books/${book.id}`} use:link>
         <div class="text-black font-bold text-xl mb-2">{book.volumeInfo.title}</div>
       </a>

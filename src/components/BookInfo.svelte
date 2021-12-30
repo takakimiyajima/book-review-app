@@ -2,7 +2,7 @@
   import Row from '@/components/Row.svelte'
   import type { BookItem } from '@/repositories/book'
   // Props
-  export let book: BookItem | undefined
+  export let book: BookItem
 
   const formatter = new Intl.NumberFormat('ja-JP', {
     style: 'currency',

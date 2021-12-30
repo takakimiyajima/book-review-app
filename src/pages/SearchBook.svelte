@@ -31,19 +31,13 @@
     isEmpty = false
     startIndex = 0
     const result = await BookRepository.get({ q })
-    if (result) {
-      isEmpty = result.totalItems === 0
-      totalItems = result.totalItems
-      books.add(result.items)
-    }
+    isEmpty = result.totalItems === 0
+    totalItems = result.totalItems
+    books.add(result.items)
   }
 
   const getNextPage = async () => {
     const result = await BookRepository.get({ q, startIndex })
-    if (!result) {
-      return
-    }
-
     // It's filtered by id coz the acquired data may include data that already exists
     const bookIds = $books.map(book => book.id)
     const filteredItems = result.items.filter(item => {
