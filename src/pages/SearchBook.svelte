@@ -20,7 +20,7 @@
   /** Methods */
   const handleSubmit = () => {
     if (!q.trim()) return
-    promise = get()
+    promise = getBooks()
   }
 
   const handleLoadMore = () => {
