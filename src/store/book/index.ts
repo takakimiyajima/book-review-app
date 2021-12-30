@@ -1,28 +1,21 @@
 import { writable } from 'svelte/store'
 import type { BookItem } from '@/repositories/book'
 
-const dummyBooks = [
-  {
-    id: '1',
-    volumeInfo: {
-      title: 'title1',
-      description: 'lorem ipsm'
-    }
-  },
-  {
-    id: '2',
-    volumeInfo: {
-      title: 'title2',
-      description: 'lorem ipsm'
-    }
-  },
-  {
-    id: '3',
-    volumeInfo: {
-      title: 'title3',
-      description: 'lorem ipsm'
-    }
-  },
-] as Array<BookItem>
+const useBookStore = () => {
+  const { subscribe, set, update } = writable<BookItem[]>([])
 
-export const books = writable<Array<BookItem>>(dummyBooks)
+  const reset = () => set([])
+
+  const add = (newBooks: BookItem[]) => update((books: BookItem[]) => {
+    // NOTE: Must always replace the variable directly to make the array value reactive.
+    return [...books, ...newBooks]
+  })
+
+  return {
+    subscribe,
+    reset,
+    add
+  }
+}
+
+export const books = useBookStore()

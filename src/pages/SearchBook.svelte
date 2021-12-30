@@ -1,8 +1,6 @@
 <script lang="ts">
   import InfiniteScroll from 'svelte-infinite-scroll'
   import { books } from '@/store/book'
-  import { onDestroy } from 'svelte'
-  import type { BookItem } from '@/repositories/book'
   import SearchBar from '@/components/SearchBar.svelte'
   import Spinner from '@/components/Spinner.svelte'
   import BookCard from '@/components/BookCard.svelte'
@@ -29,14 +27,14 @@
   }
 
   const getBooks = async () => {
-    $books = []
+    books.reset()
     isEmpty = false
     startIndex = 0
     const result = await BookRepository.get({ q })
     if (result) {
       isEmpty = result.totalItems === 0
       totalItems = result.totalItems
-      $books = result.items
+      books.add(result.items)
     }
   }
 
@@ -51,8 +49,7 @@
     const filteredItems = result.items.filter(item => {
       return !bookIds.includes(item.id)
     })
-    // NOTE: Must always replace the variable directly to make the array value reactive.
-    $books = [...$books, ...filteredItems]
+    books.add(filteredItems)
   }
 </script>
 
